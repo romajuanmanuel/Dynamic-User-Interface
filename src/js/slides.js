@@ -1,3 +1,4 @@
+// slides.js
 let slideIndex = 1;
 let imageList = [];
 
@@ -10,18 +11,19 @@ export function createSlideshow(container) {
   const slideshowContainer = document.createElement('div');
   slideshowContainer.className = 'slideshow-container';
 
-  // Crear slides
-  imageList.forEach((imgPath, index) => {
+  // Create slides
+  imageList.forEach((imgModule, index) => {
     const slideDiv = document.createElement('div');
     slideDiv.className = 'mySlides fade';
     slideDiv.innerHTML = `
       <div class="numbertext">${index + 1} / ${imageList.length}</div>
-      <img src="${imgPath}" loading="lazy" style="width:100%">
+      <img src="${imgModule}" loading="lazy" style="width:100%">
       <div class="text">Imagen ${index + 1}</div>
     `;
     slideshowContainer.appendChild(slideDiv);
   });
 
+  // Rest of your slideshow controls...
   // Controles de navegación
   const prevButton = document.createElement('a');
   prevButton.className = 'prev';
@@ -51,6 +53,7 @@ export function createSlideshow(container) {
   showSlides(slideIndex);
 }
 
+// Rest of your slide functions remain the same...
 function showSlides(n) {
   const slides = document.getElementsByClassName('mySlides');
   const dots = document.getElementsByClassName('dot');

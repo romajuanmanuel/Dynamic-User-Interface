@@ -6,11 +6,12 @@ module.exports = (env, argv) => {
 
   return {
     mode: isProduction ? 'production' : 'development',
-    entry: './src/index.js',
+     entry: './src/js/index.js',
     output: {
-      filename: '[name].js',
+      filename: 'bundle.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
+      assetModuleFilename: 'assets/[name][ext]'
     },
     module: {
       rules: [
@@ -18,11 +19,27 @@ module.exports = (env, argv) => {
           test: /\.css$/i,
           use: ['style-loader', 'css-loader'],
         },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: { presets: ['@babel/preset-env'] }
+          }
+        },
+        {
+          test: /\.webp$/,
+          type: 'asset/resource',
+          generator: {
+            filename: 'images/[name][ext]' // Organiza mejor las imágenes
+          }
+        }
       ],
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './index.html',
+        template: './index.html', // ← Ruta corregida aquí
+        filename: 'index.html'
       }),
     ],
     devServer: {
@@ -32,6 +49,8 @@ module.exports = (env, argv) => {
       port: 8080,
       open: true,
       hot: true,
+      compress: true,
     },
+    devtool: isProduction ? 'source-map' : 'eval-source-map'
   };
 };
